@@ -1,0 +1,82 @@
+/*
+MIT License
+
+Copyright (c) 2018 Liu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+<html lang="zh-cmn-Hans">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>HTML5页面test</title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=你的ak"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script><!--调用jQuery-->
+
+  <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+
+</head>
+
+<body>
+   <div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(103.9365346045,30.757355824815);
+    map.centerAndZoom(point, 16);
+    map.enableScrollWheelZoom();
+
+    //var marker=new BMap.Marker(point,{icon: myIcon});
+    //map.addOverlay(marker);
+    //把中心点mark
+       
+    var latStart = '{{ start_point[1] }}';
+    var lngStart = '{{ start_point[0] }}';
+    var point_start = new BMap.Point(lngStart,latStart);
+ 
+    var latCurrent = '{{ geocode[1] }}';
+    var lngCurrent = '{{ geocode[0] }}';
+    var point_Current = new BMap.Point(lngCurrent,latCurrent);
+    //map.addOverlay(point_Current);
+    //var marker_current=new BMap.Marker(point_Current);
+    //map.addOverlay(marker_current);
+    //marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    //location.href="http://api.map.baidu.com/direction?origin="+latCurrent+","+lngCurrent+"&destination="+latDestination+","+lngDestination+"&mode=walking&region=成都&output=html";
+
+        
+    //map.addOverlay(marker);
+    
+    var latDestination = 30.757355824815;
+    var lngDestination = 103.9365346045;
+    var point_destination = new BMap.Point(lngDestination,latDestination);
+
+    var walking = new BMap.WalkingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+    walking.search(point_start, point_destination);
+
+    var licontent="<b>Destination</b><br>";
+    var opts = {
+        width : 200,
+        height: 40,
+    };
+    var  infoWindow = new BMap.InfoWindow(licontent, opts);
+    marker_destination.openInfoWindow(infoWindow);
+</script>
